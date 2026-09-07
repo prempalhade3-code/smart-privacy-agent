@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "VDLM Browser Agent",
+  "description": "Privacy-preserving visual browser agent (ISRO 26171)",
+  "version": "0.1.0",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "offscreen",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost:8080/*",
+    "http://127.0.0.1:8080/*",
+    "ws://localhost:8080/*",
+    "ws://127.0.0.1:8080/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_title": "VDLM Agent"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/main.ts"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["wasm/*", "shaders/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
